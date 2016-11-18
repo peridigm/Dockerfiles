@@ -16,14 +16,14 @@ RUN apt-get -yq install gcc \
                         file
 
 #Build HDF5
-RUN wget http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.17.tar.bz2; \
-    tar xjvf hdf5-1.8.17.tar.bz2; \
-    cd hdf5-1.8.17; \
+RUN wget https://support.hdfgroup.org/ftp/HDF5/current18/src/hdf5-1.8.18.tar.bz2; \
+    tar xjvf hdf5-1.8.18.tar.bz2; \
+    cd hdf5-1.8.18; \
     ./configure --enable-parallel --enable-shared --prefix=/usr/local/hdf5; \
     make; \
     make install; \
     cd ..; \
-    rm -rf /hdf5-1.8.17 /hdf5-1.8.17.tar.bz2 
+    rm -rf /hdf5-1.8.18 /hdf5-1.8.18.tar.bz2 
 
 #Build netcdf
 RUN wget ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4.3.3.1.tar.gz
