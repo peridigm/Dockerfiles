@@ -1,0 +1,28 @@
+From 5a45149e7d8ddadd20d54c5caa9be4c6dad6e088 Mon Sep 17 00:00:00 2001
+From: "John T. Foster" <johntfosterjr@gmail.com>
+Date: Mon, 15 Aug 2016 17:26:42 -0500
+Subject: [PATCH] Add yaml-cpp to optional TPL libraries
+
+This is required to add the include paths and libraries to TPL_INCLUDE_DIRS
+and TPL_LIBRARIES upstream.  This may be required if applications dependent on
+Trilinos want to use the Muelu YAML parser.
+---
+ packages/muelu/cmake/Dependencies.cmake | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/packages/muelu/cmake/Dependencies.cmake b/packages/muelu/cmake/Dependencies.cmake
+index 9fc1e89..dad0c30 100644
+--- a/packages/muelu/cmake/Dependencies.cmake
++++ b/packages/muelu/cmake/Dependencies.cmake
+@@ -4,7 +4,7 @@ SET(LIB_OPTIONAL_DEP_PACKAGES Amesos Amesos2 Epetra EpetraExt Teko
+ SET(TEST_REQUIRED_DEP_PACKAGES )
+ SET(TEST_OPTIONAL_DEP_PACKAGES AztecOO Galeri Belos)
+ SET(LIB_REQUIRED_DEP_TPLS BLAS LAPACK)
+-SET(LIB_OPTIONAL_DEP_TPLS Boost MATLAB AmgX CGAL)
++SET(LIB_OPTIONAL_DEP_TPLS Boost MATLAB AmgX CGAL yaml-cpp)
+ SET(TEST_REQUIRED_DEP_TPLS)
+ SET(TEST_OPTIONAL_DEP_TPLS yaml-cpp Boost)
+ 
+-- 
+2.8.4
+

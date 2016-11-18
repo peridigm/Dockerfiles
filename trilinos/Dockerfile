@@ -18,6 +18,9 @@ RUN apt-get -yq install gfortran \
 RUN git clone https://github.com/trilinos/Trilinos.git trilinos; \
     mkdir trilinos/build
 
+ADD trilinos/yaml.patch trilinos/yaml.patch
+WORKDIR trilinos
+RUN patch -p1 < yaml.patch
 WORKDIR trilinos/build
 RUN cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local/trilinos/ \
           -DMPI_BASE_DIR:PATH=/usr \
