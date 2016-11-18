@@ -28,7 +28,7 @@ RUN wget https://support.hdfgroup.org/ftp/HDF5/current18/src/hdf5-1.8.18.tar.bz2
 #Build netcdf
 RUN wget ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4.3.3.1.tar.gz
 RUN tar xzvf netcdf-4.3.3.1.tar.gz
-ADD largefiles.patch /netcdf-4.3.3.1/largefiles.patch
+ADD netcdf/largefiles.patch /netcdf-4.3.3.1/largefiles.patch
 RUN cd netcdf-4.3.3.1; \
     patch -p1 < largefiles.patch; \
     ./configure --prefix=/usr/local/netcdf \ 
