@@ -68,7 +68,7 @@ RUN cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local/trilinos/ \
           -DTPL_yaml-cpp_LIBRARIES:FILEPATH=/usr/lib/x86_64-linux-gnu/libyaml-cpp.so.0.5 \
           ..
 
-RUN make -j8 && make install; \
-    cd ../..; \
-    rm -rf trilinos
+RUN make -j8 && make install
+WORKDIR /
+RUN rm -rf trilinos
 
