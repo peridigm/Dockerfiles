@@ -21,9 +21,10 @@ RUN wget https://support.hdfgroup.org/ftp/HDF5/current18/src/hdf5-1.8.18.tar.bz2
     cd hdf5-1.8.18; \
     ./configure --enable-parallel --enable-shared --prefix=/usr/local/hdf5; \
     make; \
-    make install; \
-    cd ..; \
-    rm -rf /hdf5-1.8.18 /hdf5-1.8.18.tar.bz2 
+    make install
+
+WORKDIR /
+RUN rm -rf /hdf5-1.8.18 /hdf5-1.8.18.tar.bz2 
 
 #Build netcdf
 RUN wget ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4.3.3.1.tar.gz
@@ -36,6 +37,7 @@ RUN cd netcdf-4.3.3.1; \
                 LDFLAGS=-L/usr/local/hdf5/lib \
                 CFLAGS=-I/usr/local/hdf5/include; \
     make; \
-    make install;\
-    cd ..;\
-    rm -rf netcdf-4.3.3.1 netcdf-4.3.3.1.tar.gz
+    make install
+
+WORKDIR /
+RUN rm -rf netcdf-4.3.3.1 netcdf-4.3.3.1.tar.gz
