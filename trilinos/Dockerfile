@@ -18,9 +18,6 @@ RUN apt-get -yq install gfortran \
 RUN git clone https://github.com/trilinos/Trilinos.git trilinos; \
     mkdir trilinos/build
 
-ADD trilinos/yaml.patch trilinos/yaml.patch
-WORKDIR trilinos
-RUN patch -p1 < yaml.patch
 WORKDIR trilinos/build
 RUN cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local/trilinos/ \
           -DMPI_BASE_DIR:PATH=/usr \
@@ -66,6 +63,7 @@ RUN cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local/trilinos/ \
           -DCMAKE_VERBOSE_MAKEFILE:BOOL=OFF \
           -DTrilinos_VERBOSE_CONFIGURE:BOOL=OFF \
           -DTrilinos_ENABLE_MueLu:BOOL=ON \
+          -DTeuchosCore_ENABLE_yaml-cpp:BOOL=ON \
           -DTPL_ENABLE_yaml-cpp:BOOL=ON \
           -Dyaml-cpp_INCLUDE_DIRS:PATH=/usr/include/yaml-cpp \
           -DTPL_yaml-cpp_LIBRARIES:FILEPATH=/usr/lib/x86_64-linux-gnu/libyaml-cpp.so.0.5 \
