@@ -1,6 +1,6 @@
-FROM debian:jessie
+FROM debian:buster
 
-MAINTAINER John T. Foster <johntfosterjr@gmail.com>
+LABEL maintainer="John Foster <johntfosterjr@gmail.com>"
 
 ENV HOME /root
 
@@ -10,34 +10,33 @@ RUN apt-get -yq install gcc \
                         wget \
                         bzip2 \
                         tar \
-                        libghc-zlib-dev \
+                        zlib1g-dev \
                         m4 \
                         libopenmpi-dev \
-                        file
+                        file \
+                        libcurl4-openssl-dev
 
 #Build HDF5
-RUN wget https://support.hdfgroup.org/ftp/HDF5/current18/src/hdf5-1.8.18.tar.bz2; \
-    tar xjvf hdf5-1.8.18.tar.bz2; \
-    cd hdf5-1.8.18; \
-    ./configure --enable-parallel --enable-shared --prefix=/usr/local/hdf5; \
+RUN wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.0/src/hdf5-1.12.0.tar.bz2; \
+    tar xjvf hdf5-1.12.0.tar.bz2; \
+    cd hdf5-1.12.0; \
+    ./configure --enable-parallel --enable-shared --with-default-api-version=v110 --prefix=/usr/local/hdf5; \
     make; \
-    make install
-
-WORKDIR /
-RUN rm -rf /hdf5-1.8.18 /hdf5-1.8.18.tar.bz2 
+    make install; \
+    cd ..; \
+    rm -rf hdf5-1.12.0 hdf5-1.12.0.tar.bz2 
 
 #Build netcdf
-RUN wget ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4.3.3.1.tar.gz
-RUN tar xzvf netcdf-4.3.3.1.tar.gz
-ADD netcdf/largefiles.patch /netcdf-4.3.3.1/largefiles.patch
-RUN cd netcdf-4.3.3.1; \
+RUN wget https://github.com/Unidata/netcdf-c/archive/v4.7.4.tar.gz; \
+    tar xzvf v4.7.4.tar.gz
+ADD largefiles.patch netcdf-c-4.7.4/largefiles.patch
+RUN cd netcdf-c-4.7.4; \
     patch -p1 < largefiles.patch; \
     ./configure --prefix=/usr/local/netcdf \ 
                 CC=mpicc \
                 LDFLAGS=-L/usr/local/hdf5/lib \
                 CFLAGS=-I/usr/local/hdf5/include; \
     make; \
-    make install
-
-WORKDIR /
-RUN rm -rf netcdf-4.3.3.1 netcdf-4.3.3.1.tar.gz
+    make install;\
+    cd ..;\
+    rm -rf netcdf-c-4.7.4 v4.7.4.tar.gz
