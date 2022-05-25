@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bookworm
 
 LABEL maintainer="John Foster <johntfosterjr@gmail.com>"
 
@@ -13,6 +13,8 @@ RUN apt-get -yq install gcc \
                         zlib1g-dev \
                         m4 \
                         libopenmpi-dev \
+                        openmpi-bin \
+                        openssh-server \
                         file \
                         libcurl4-openssl-dev
 
