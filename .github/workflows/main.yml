@@ -31,7 +31,7 @@ jobs:
             peridigm/netcdf:latest
             peridigm/netcdf:largefiles
       - name: Build Trilinos
-        if: succeeded()
+        if: ${{ success() }}
         uses: docker/build-push-action@v2
         with:
           context: trilinos
@@ -39,7 +39,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }} 
           tags: peridigm/trilinos:latest
       - name: Trigger rebuild of Peridigm image
-        if: succeeded()
+        if: ${{ success() }}
         shell: bash -l {0}
         run: |
           curl --request POST \
