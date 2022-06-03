@@ -5,8 +5,7 @@ LABEL maintainer="John Foster <johntfosterjr@gmail.com>"
 ENV HOME /root
 
 RUN apt-get update
-RUN apt-get -yq install gcc \
-                        build-essential \
+RUN apt-get -yq install build-essential \
                         wget \
                         bzip2 \
                         tar \

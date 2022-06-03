@@ -1,11 +1,6 @@
 FROM peridigm/netcdf
 
-LABEL maintainer="John Foster <johntfosterjr@gmail.com>"
-
-ENV HOME /root
-
-RUN apt-get -yq install g++ \ 
-                        gfortran \
+RUN apt-get -yq install gfortran \
                         python3 \
                         libblas-dev \
                         liblapack-dev \
