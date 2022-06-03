@@ -1,11 +1,9 @@
-name: Build peridigm/trilinos docker image
-on:
-  push:
-    #tags: 'v*.*.*'
+name: Build netcdf and Trilinos docker images
+on: [push, pull_request]
 
 jobs:
   # Label of the container job
-  build-test:
+  build-images:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,7 +22,25 @@ jobs:
       - name: Build hdf5 and netcdf
         uses: docker/build-push-action@v2
         with:
+          context: netcdf
+          file: netcdf/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }} 
+          tags: |
+            peridigm/netcdf:latest
+            peridigm/netcdf:largefiles
+      - name: Build Trilinos
+        if: succeeded()
+        uses: docker/build-push-action@v2
+        with:
           context: trilinos
           file: trilinos/Dockerfile
           push: ${{ github.event_name != 'pull_request' }} 
           tags: peridigm/trilinos:latest
+      - name: Trigger rebuild of Peridigm image
+        if: succeeded()
+        shell: bash -l {0}
+        run: |
+          curl --request POST \
+          --url 'https://api.github.com/repos/peridigm/peridigm/dispatches' \
+          --header 'authorization: Bearer ${{secrets.PERIDIGM_SECRET_TOKEN}}' \
+          --data '{"event_type": "trigger"}'
